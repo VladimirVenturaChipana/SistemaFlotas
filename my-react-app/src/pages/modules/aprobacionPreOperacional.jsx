@@ -1,25 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Box,
-  Typography,
-  Card,
-  CardContent,
-  CardActions,
-  Button,
-  Grid,
-  Chip,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Divider,
+  Box, Typography, Card, CardContent, CardActions, Button, Grid,
+  Chip, Dialog, DialogTitle, DialogContent, DialogActions, Table,
+  TableBody, TableCell, TableContainer, TableHead, TableRow,
+  Paper, Divider,
 } from '@mui/material';
 
 // Iconos
@@ -406,7 +390,7 @@ export default function AprobacionPreOperacional() {
                         </>
                       )}
                     </Grid>
-                    
+
                     <Grid item xs={12} md={6}>
                       <Typography variant="subtitle2" color="primary" sx={{ fontWeight: 'bold', mb: 1 }}>
                         ESPECIFICACIONES DEL VEHÍCULO
@@ -414,7 +398,7 @@ export default function AprobacionPreOperacional() {
                       <Typography variant="body2"><strong>Marca / Modelo:</strong> {selectedInspection.marca} {selectedInspection.modelo}</Typography>
                       <Typography variant="body2"><strong>Estado Actual de Inspección:</strong></Typography>
                       <Box sx={{ my: 0.5 }}>{getStatusChip(selectedInspection.estado)}</Box>
-                      
+
                       {/* Mostrar detalles de base de datos de addFlota si existe */}
                       {fullVeh ? (
                         <Box sx={{ mt: 1, p: 1, border: '1px solid', borderColor: 'divider', borderRadius: 1, bgcolor: 'background.paper' }}>

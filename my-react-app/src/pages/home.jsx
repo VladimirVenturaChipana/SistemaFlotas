@@ -1,22 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  Box,
-  Avatar,
-  AppBar,
-  Toolbar,
-  Typography,
-  Drawer,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Divider,
-  Menu,
-  MenuItem,
-  Tooltip,
-  IconButton
+  Box, Avatar, AppBar, Toolbar, Typography, Drawer, List,
+  ListItem, ListItemButton, ListItemIcon, ListItemText,
+  Divider, Menu, MenuItem, Tooltip, IconButton
 } from '@mui/material';
 
 import ButtonTheme from '../components/buttonTheme';
@@ -49,24 +36,26 @@ import InspeccionJornadas from './modules/inspeccionJornadas';
 import CalculosOperacionales from './modules/calculosOperacionales';
 import DashboardInicio from './modules/dashboardInicio';
 
-function Home({ isLight, setIsLight }) {
+function Home({ isLight, setIsLight, currentUser = { rol: 'encargado_garaje', nombre: 'Test Admin' } }) {
   const navigate = useNavigate();
 
   // 1. Nueva definición de las pestañas según los roles indicados
-  const menuItems = [
-    { text: 'Inicio', view: 'inicio', icon: <DashboardIcon /> },
-    { text: 'Añadir Flota (Op. Flota)', view: 'añadir_flota', icon: <LocalShippingIcon /> },
-    { text: 'Inspección de vehículo (Cond.)', view: 'inspeccion_vehiculo', icon: <BuildIcon /> },
-    { text: 'Aprobación Pre-op. (Insp.)', view: 'aprobacion_preop', icon: <VerifiedUserIcon /> },
-    { text: 'Orden de entrega (Insp.)', view: 'orden_entrega', icon: <DescriptionIcon /> },
-    { text: 'Abastecimiento (Cond.)', view: 'abastecimiento', icon: <LocalGasStationIcon /> },
-    { text: 'Rutas (Cond.)', view: 'rutas', icon: <AddRoadIcon /> },
-    { text: 'Reporte de jornada (Cond.)', view: 'reporte_jornada', icon: <AssignmentTurnedInIcon /> },
-    { text: 'Inspección de jornadas (Insp.)', view: 'inspeccion_jornadas', icon: <AssessmentIcon /> },
-    { text: 'Cálculos Operacionales (Op.)', view: 'calculos_operacionales', icon: <CalculateIcon /> },
+  const allMenuItems = [
+    { text: 'Inicio', view: 'inicio', icon: <DashboardIcon />, roles: ['admin', 'conductor', 'encargado_garaje', 'operador_vehiculos'] },
+    { text: 'Añadir Flota', view: 'añadir_flota', icon: <LocalShippingIcon />, roles: ['admin'] },
+    { text: 'Inspección de vehículo', view: 'inspeccion_vehiculo', icon: <BuildIcon />, roles: ['conductor'] },
+    { text: 'Aprobación Pre-op.', view: 'aprobacion_preop', icon: <VerifiedUserIcon />, roles: ['encargado_garaje'] },
+    { text: 'Orden de entrega', view: 'orden_entrega', icon: <DescriptionIcon />, roles: ['encargado_garaje'] },
+    { text: 'Abastecimiento', view: 'abastecimiento', icon: <LocalGasStationIcon />, roles: ['conductor'] },
+    { text: 'Rutas', view: 'rutas', icon: <AddRoadIcon />, roles: ['conductor'] },
+    { text: 'Reporte de jornada', view: 'reporte_jornada', icon: <AssignmentTurnedInIcon />, roles: ['conductor'] },
+    { text: 'Inspección de jornadas', view: 'inspeccion_jornadas', icon: <AssessmentIcon />, roles: ['encargado_garaje'] },
+    { text: 'Cálculos Operacionales', view: 'calculos_operacionales', icon: <CalculateIcon />, roles: ['operador_vehiculos'] },
   ];
 
   // 2. Estado para controlar qué vista/módulo se renderiza
+  const menuItems = allMenuItems.filter(item => item.roles.includes(currentUser.rol));
+
   const [currentView, setCurrentView] = useState('inicio');
 
   // Estados de menú configuración
@@ -82,7 +71,7 @@ function Home({ isLight, setIsLight }) {
   };
 
   // Estados de Drawer Responsivo
-  const drawerWidth = 280; // Ampliado levemente a 280px para que entren cómodos los textos de los roles
+  const drawerWidth = 280;
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => {
@@ -166,9 +155,9 @@ function Home({ isLight, setIsLight }) {
 
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <ButtonTheme isLight={isLight} setIsLight={setIsLight} />
-            <Tooltip title="Configuración">
+            <Tooltip title={currentUser.nombre}>
               <IconButton onClick={handleClick} size="small" sx={{ p: 0 }}>
-                <Avatar> H </Avatar>
+                <Avatar> {currentUser.nombre.charAt(0).toUpperCase()} </Avatar>
               </IconButton>
             </Tooltip>
           </Box>

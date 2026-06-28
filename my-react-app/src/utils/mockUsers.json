@@ -1,0 +1,32 @@
+[
+    {
+        "id": 1,
+        "username": "admin",
+        "nombre": "Administrador Principal",
+        "rol": "admin"
+    },
+    {
+        "id": 2,
+        "username": "juan_cond",
+        "nombre": "Juan Pérez",
+        "rol": "conductor"
+    },
+    {
+        "id": 3,
+        "username": "carlos_cond",
+        "nombre": "Carlos Gómez",
+        "rol": "conductor"
+    },
+    {
+        "id": 4,
+        "username": "luis_garaje",
+        "nombre": "Luis Garaje",
+        "rol": "encargado_garaje"
+    },
+    {
+        "id": 5,
+        "username": "ana_operador",
+        "nombre": "Ana Operaciones",
+        "rol": "operador_vehiculos"
+    }
+]
