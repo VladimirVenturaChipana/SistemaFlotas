@@ -3,15 +3,23 @@ import { filtrarEntradaMantenimiento, obtenerErrorMantenimiento } from './logicV
 
 export default function SeccionMantenimiento({ formData, setFormData }) {
 
-    // Manejador único para todos los campos (tanto botones como inputs)
     const handleInputChange = (e, nameProp, valueProp) => {
         const name = nameProp || e.target.name;
         const value = valueProp !== undefined ? valueProp : e.target.value;
 
         const valorFiltrado = filtrarEntradaMantenimiento(name, value);
-        setFormData((prev) => ({ ...prev, [name]: valorFiltrado }));
-    };
+        setFormData((prev) => {
+            const newState = { ...prev, [name]: valorFiltrado };
 
+            if (name === 'valor_adquisicion') {
+                const valorNum = parseFloat(valorFiltrado) || 0;
+
+                newState.seguro_anual = (valorNum * 0.00916).toFixed(2);
+                newState.licenciamiento_anual = (valorNum * 0.00161).toFixed(2);
+            }
+            return newState
+        });
+    }
     const estados = [
         { label: 'Pintura', name: 'estado_pintura' },
         { label: 'Faros', name: 'estado_faros' },
@@ -22,8 +30,16 @@ export default function SeccionMantenimiento({ formData, setFormData }) {
     const getColor = (value) => {
         if (value === 'BUENO') return 'success';
         if (value === 'MALO') return 'error';
-        return 'standard'; // 'standard' o 'neutral' en MUI
+        return 'standard';
     };
+
+    // Configuramos los campos con flags para su estado y tipo
+    const camposFinancieros = [
+        { label: 'Valor Adquisición', name: 'valor_adquisicion', disabled: false, type: 'text' },
+        { label: 'Vida Útil (años)', name: 'vida_util_anios', disabled: false, type: 'number' },
+        { label: 'Seguro Anual', name: 'seguro_anual', disabled: true, type: 'text' },
+        { label: 'Licenciamiento', name: 'licenciamiento_anual', disabled: true, type: 'text' }
+    ];
 
     return (
         <Grid container spacing={3}>
@@ -38,7 +54,6 @@ export default function SeccionMantenimiento({ formData, setFormData }) {
                 <Grid size={{ xs: 12, sm: 4 }} key={item.name}>
                     <Typography variant="caption" sx={{ mb: 0.5, fontWeight: 'bold' }}>{item.label}</Typography>
                     <ToggleButtonGroup
-                        // Aplicamos el color dinámico al grupo según el valor actual[cite: 8]
                         color={getColor(formData[item.name])}
                         value={formData[item.name]}
                         exclusive
@@ -52,32 +67,28 @@ export default function SeccionMantenimiento({ formData, setFormData }) {
                     </ToggleButtonGroup>
                 </Grid>
             ))}
-            {/* Campos Financieros */}
-            {[
-                { label: 'Valor Adquisición', name: 'valor_adquisicion' },
-                { label: 'Vida Útil (años)', name: 'vida_util_anios' },
-                { label: 'Seguro Anual', name: 'seguro_anual' },
-                { label: 'Licenciamiento', name: 'licenciamiento_anual' }
-            ].map((field) => (
+
+            {/* Campos Financieros Dinámicos */}
+            {camposFinancieros.map((field) => (
                 <Grid size={{ xs: 6, sm: 3 }} key={field.name}>
                     <TextField
-                        fullWidth size="small" type="number"
+                        fullWidth size="small" type={field.type}
                         label={field.label}
                         name={field.name}
-                        value={formData[field.name]}
+                        value={formData[field.name] || ''}
                         onChange={handleInputChange}
+                        disabled={field.disabled}
                         error={!!obtenerErrorMantenimiento(field.name, formData[field.name])}
                         helperText={obtenerErrorMantenimiento(field.name, formData[field.name])}
                     />
                 </Grid>
             ))}
-
             <Grid size={12}>
                 <TextField
                     fullWidth size="small" type="number"
                     label="Periodicidad Mantenimiento (km)"
                     name="periodicidad_mantenimiento_km"
-                    value={formData.periodicidad_mantenimiento_km}
+                    value={formData.periodicidad_mantenimiento_km || ''}
                     onChange={handleInputChange}
                 />
             </Grid>

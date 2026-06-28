@@ -11,6 +11,7 @@ export const LIMITES_ANIO = {
   max: new Date().getFullYear() + 1,
 };
 
+// Se mantiene igual para modelo y color
 const capitalizarTexto = (texto) => {
   if (!texto) return '';
   return texto
@@ -31,12 +32,20 @@ export const filtrarEntradaTexto = (name, value) => {
       valorLimpio = valorLimpio.replace(/^[0-9\s]+/, '');
     }
   }
+
   if (name === 'marca' || name === 'color') {
     valorLimpio = valorLimpio.replace(/[0-9]/g, '');
   }
 
-  if (['marca', 'modelo', 'color'].includes(name)) {
+  if (['modelo', 'color'].includes(name)) {
     valorLimpio = capitalizarTexto(valorLimpio);
+  } else if (name === 'marca') {
+    if (valorLimpio) {
+      valorLimpio = valorLimpio
+        .split(' ')
+        .map(palabra => palabra.charAt(0).toUpperCase() + palabra.slice(1))
+        .join(' ');
+    }
   }
 
   if (LIMITES_CARACTERES[name]) {
@@ -45,6 +54,7 @@ export const filtrarEntradaTexto = (name, value) => {
 
   return valorLimpio;
 };
+
 
 export const obtenerErrorCampo = (name, value) => {
   if (!value || value.toString().trim() === '') {

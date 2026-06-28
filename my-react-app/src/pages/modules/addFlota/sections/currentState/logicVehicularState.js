@@ -1,13 +1,22 @@
 export const filtrarEntradaMantenimiento = (name, value) => {
-    // Campos que deben ser numéricos positivos
-    const camposNumericos = [
-        'valor_adquisicion', 'vida_util_anios', 'seguro_anual',
-        'licenciamiento_anual', 'periodicidad_mantenimiento_km'
+    // Manejo especial para el Valor de Adquisición (permite punto y 2 decimales)
+    if (name === 'valor_adquisicion') {
+        // Limpiamos todo lo que no sea número o punto
+        let val = value.replace(/[^0-9.]/g, '');
+        // Limitamos a un solo punto y máximo dos decimales
+        const match = val.match(/^[0-9]*\.?[0-9]{0,2}/);
+        return match ? match[0] : '';
+    }
+
+    // Campos que deben ser numéricos estrictamente enteros
+    const camposNumericosEnteros = [
+        'vida_util_anios', 'periodicidad_mantenimiento_km'
     ];
 
-    if (camposNumericos.includes(name)) {
-        return value.replace(/\D/g, ''); // Solo números
+    if (camposNumericosEnteros.includes(name)) {
+        return value.replace(/\D/g, ''); // Solo números enteros
     }
+
     return value;
 };
 
