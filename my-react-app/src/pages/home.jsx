@@ -36,7 +36,7 @@ import InspeccionJornadas from './modules/inspeccionJornadas';
 import CalculosOperacionales from './modules/calculosOperacionales';
 import DashboardInicio from './modules/dashboardInicio';
 
-function Home({ isLight, setIsLight, currentUser = { rol: 'encargado_garaje', nombre: 'Test Admin' } }) {
+function Home({ isLight, setIsLight, currentUser = { rol: 'conductor', nombre: 'Test Admin' } }) {
   const navigate = useNavigate();
 
   // 1. Nueva definición de las pestañas según los roles indicados
