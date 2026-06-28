@@ -20,7 +20,6 @@ import BusinessIcon from '@mui/icons-material/Business';
 import { PUNTOS_CONTROL } from '../../utils/inspectionData';
 import ModalState from '../../components/modalState';
 
-// Helper para generar una checklist de prueba con fines ilustrativos
 const generateMockChecklist = () => {
   const checklist = {};
   PUNTOS_CONTROL.forEach(({ campo }, idx) => {

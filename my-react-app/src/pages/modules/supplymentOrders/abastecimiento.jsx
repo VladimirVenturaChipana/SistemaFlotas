@@ -25,8 +25,6 @@ export default function Abastecimiento() {
     if (pendiente) {
       setOrdenPendiente(pendiente);
 
-      // Para validar la consistencia del odómetro, jalamos el Kilometraje de Salida 
-      // que se registró previamente en el checklist de este vehículo
       const inspecciones = JSON.parse(localStorage.getItem('inspecciones_historial') || '[]');
       const ultimaInspeccion = inspecciones.find(i => i.vehiculo_id === pendiente.vehiculo_id);
 

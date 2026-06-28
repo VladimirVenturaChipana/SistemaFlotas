@@ -22,7 +22,6 @@ export default function ModalState({ open, onClose, aprobado = true }) {
 
   const handleContinue = () => {
     onClose();
-    navigate('/rutas');
   };
 
   if (aprobado) {

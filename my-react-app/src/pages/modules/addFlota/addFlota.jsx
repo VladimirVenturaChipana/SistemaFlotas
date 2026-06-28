@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import {
   Box,
   Typography,
-  TextField,
   Button,
   Grid,
   Paper,
@@ -11,11 +10,9 @@ import {
   Alert,
 } from '@mui/material';
 
-// Iconos
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
-// 1. IMPORTAMOS EL NUEVO COMPONENTE MODULAR
 import { INITIAL_VEHICLE_STATE } from './vehicleConstants';
 import SeccionIdentificacion from './sections/identification/identification';
 import SeccionDatosGenerales from './sections/generalData/generalData';
